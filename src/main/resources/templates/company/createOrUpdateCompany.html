@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Company</h2>
+    <form th:object="${company}" method="post">
+        <div>
+            <input th:replace="~{fragments/inputField :: input ('Company name', 'name', 'text')}"/>
+        </div><br/>
+        <div>
+            <button th:with="text=${person['new'] ? 'Add Company' : 'Edit Company'}"
+                    th:text="${text}">Add Company</button>
+        </div>
+    </form>
+</body>
+</html>

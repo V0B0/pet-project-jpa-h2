@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Details</title>
+</head>
+<body>
+  <h2>Person Details Edit</h2>
+  <form th:object="${person}" method="post">
+    <div>
+      <input th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}"/><br/>
+      <input th:replace="~{fragments/inputField :: input ('Last Name', 'lastName', 'text')}"/><br/>
+      <input th:replace="~{fragments/inputField :: input ('Age', 'age', 'text')}"/><br/>
+      <label th:text="House"></label><br/>
+      <select th:field="*{addresses}">
+        <option th:each="address: ${addresses}" th:value="${address.id}" th:text="${address.name}"></option>
+      </select><br/>
+      <input th:field="${person.passport.series}" th:type="text"/>
+      <input th:field="${person.passport.number}" th:type="text"/>
+    </div>
+    <div>
+      <button>Edit Person</button>
+    </div>
+  </form>
+  <form th:object="${passport}" method="post">
+    <label th:text="Passport"></label><br/>
+    <input th:replace="~{fragments/inputField :: input ('Series', 'series', 'text')}">
+    <input th:replace="~{fragments/inputField :: input ('Number', 'number', 'text')}">
+  </form>
+  <label th:text="Cars"></label><br/>
+  <table th:unless="${person.companies.isEmpty()}">
+    <tr>
+      <th>Model</th>
+      <th>Color</th>
+    </tr>
+    <tr th:each="company : ${person.companies}">
+      <td th:text="${company.getModel()}"></td>
+      <td th:text="${company.getColor()}"></td>
+    </tr>
+  </table>
+  <button><a th:href="@{/person/{id}/companies/add(id=${person.id})}">Add company</a></button>
+</body>
+</html>

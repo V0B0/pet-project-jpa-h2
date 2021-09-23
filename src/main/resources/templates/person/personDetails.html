@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person</title>
+</head>
+<body>
+    <h2>Person Information</h2>
+    <table th:object="${person}">
+        <tr>
+            <th>Name</th>
+            <td><b th:text="*{firstName+' '+lastName}"></b></td>
+        </tr>
+        <tr>
+            <th>Birth Date</th>
+            <td th:text="*{birthDate}"></td>
+        </tr>
+        <tr th:unless="${person.primaryAddress == null}">
+            <th>Address</th>
+            <td th:text="*{primaryAddress}"></td>
+        </tr>
+        <tr th:unless="${person.primaryAddress == null}">
+            <th>Tenants</th>
+            <td th:text="*{primaryAddress.tenants.size()}"></td>
+        </tr>
+        <tr th:unless="${person.passport == null}">
+            <th>Passport</th>
+            <td th:text="*{passport.series+' '+passport.number}"></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><a th:href="@{/person/{id}/details(id=${person.id})}">Add details</a></td>
+            <th></th>
+            <td><a th:href="@{/person/{id}/delete(id=${person.id})}">Delete person</a></td>
+            <th></th>
+            <td><a th:href="@{/}">Home</a></td>
+        </tr>
+    </table>
+
+    <br/>
+    <br/>
+    <br/>
+    <table th:unless="${person.primaryAddress==null}">
+        <h2>Address</h2>
+        <h2 th:text="${person.primaryAddress}"></h2>
+        <tr th:each="person : ${person.primaryAddress.tenants}"
+            th:unless="${person.primaryAddress.tenants.isEmpty()}">
+            <th>Name</th>
+            <td th:text="${person.getFirstName()+' '+person.getLastName()}"></td>
+            <th>BirthDate</th>
+            <td th:text="${person.birthDate}"></td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <br/>
+
+    <table th:unless="${person.workingPlaces.isEmpty()}">
+        <h2>Companies</h2>
+        <tr th:each="company : ${person.workingPlaces}">
+            <td>
+                <dl>
+                    <dt>Company Name</dt>
+                    <dd th:text="${company.name}"></dd>
+                    <dt>Count workers</dt>
+                    <dd th:text="${company.workers.size()}"></dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+    <a th:href="@{/person/{id}/company(id=${person.id})}">Add Company</a>
+</body>
+</html>

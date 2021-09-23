@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person</title>
+</head>
+<body>
+    <h2>Person</h2>
+  <form th:object="${person}" method="post">
+      <div>
+          <h4>Person Information</h4>
+          <input th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}"/>
+          <input th:replace="~{fragments/inputField :: input ('Last Name', 'lastName', 'text')}"/>
+          <input th:replace="~{fragments/inputField :: input ('Date', 'birthDate', 'date')}"/>
+          <h4>Passport</h4>
+          <input th:replace="~{fragments/inputField :: input ('Series', 'passport.series', 'text')}"/>
+          <input th:replace="~{fragments/inputField :: input ('Number', 'passport.number', 'text')}"/>
+          <input th:replace="~{fragments/inputField :: input ('Issue date', 'passport.issueDate', 'date')}"/>
+          <h4>Address</h4>
+          <input th:replace="~{fragments/inputField :: input ('City', 'primaryAddress.city', 'text')}"/>
+          <input th:replace="~{fragments/inputField :: input ('Street', 'primaryAddress.street', 'text')}"/>
+          <input th:replace="~{fragments/inputField :: input ('Building', 'primaryAddress.building', 'text')}"/>
+      </div><br/>
+      <div>
+          <button th:with="text=${person['new'] ? 'Add Person' : 'Edit Person'}"
+          th:text="${text}">Add Person</button>
+      </div>
+  </form>
+</body>
+</html>
